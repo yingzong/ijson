@@ -149,6 +149,35 @@ def items(prefixed_events, prefix):
     except StopIteration:
         pass
 
+def dict_items(prefixed_events, prefix):
+    '''
+    An iterator returning pairs (key: value) where value is a native Python object constructed
+    from the dictionary items under a given prefix.
+    '''
+    prefixed_events = iter(prefixed_events)
+    try:
+        while True:
+            current, event, value = next(prefixed_events)
+            if current == prefix:
+                if event in ('start_map', 'start_array'):
+                    end_event = event.replace('start', 'end')
+                    while (current, event) != (prefix, end_event):
+                        current, sub_event, sub_value = next(prefixed_events)
+                        if (current, sub_event) == (prefix, 'map_key'):
+                            map_key = sub_value
+                            sub_prefix, sub_event, sub_value = next(prefixed_events)
+                            if sub_event in ('start_map', 'start_array'):
+                                end_sub_event = sub_event.replace('start', 'end')
+                                builder = ObjectBuilder()
+                                while (current, sub_event) != (sub_prefix, end_sub_event):
+                                    builder.event(sub_event, sub_value)
+                                    current, sub_event, sub_value = next(prefixed_events)
+                                yield map_key, builder.value
+                                event = sub_event
+                            else:
+                                yield map_key, sub_value
+    except StopIteration:
+        pass
 
 def number(str_value):
     '''

@@ -204,3 +204,6 @@ def items(file, prefix):
     Backend-specific wrapper for ijson.common.items.
     '''
     return common.items(parse(file), prefix)
+
+def dict_items(file, prefix):
+    return common.dict_items(parse(file), prefix)
