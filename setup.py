@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'ijson',
-    version = '2.2',
-    author = 'Ivan Sagalaev',
-    author_email = 'maniac@softwaremaniacs.org',
-    url = 'https://github.com/isagalaev/ijson',
+    version = '2.3-celect',
+    author = 'Ying-zong Huang',
+    author_email = 'yingzong@celectengine.com',
+    url = 'https://github.com/yingzong/ijson',
     license = 'BSD',
     description = 'Iterative JSON parser with a standard Python iterator interface',
     long_description = open('README.rst').read(),
